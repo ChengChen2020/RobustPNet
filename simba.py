@@ -22,12 +22,12 @@ class SimBA:
         return utils.apply_normalization(x, self.dataset)
 
     def get_probs(self, x, y):
-        output = self.model(self.normalize(x)).cpu()
+        output = self.model(self.normalize(x.cuda())).cpu()
         probs = torch.index_select(F.softmax(output, dim=-1).data, 1, y)
         return torch.diag(probs)
     
     def get_preds(self, x):
-        output = self.model(self.normalize(x)).cpu()
+        output = self.model(self.normalize(x.cuda())).cpu()
         _, preds = output.data.max(1)
         return preds
 

@@ -64,9 +64,9 @@ def apply_normalization(imgs, dataset):
     elif dataset == 'mnist':
         mean = MNIST_MEAN
         std = MNIST_STD
-    else:
-        mean = [0, 0, 0]
-        std = [1, 1, 1]
+    else:  # tiny image net
+        mean = [0.4802, 0.4481, 0.3975]
+        std = [0.2302, 0.2265, 0.2262]
     imgs_tensor = imgs.clone()
     if dataset == 'mnist':
         imgs_tensor = (imgs_tensor - mean[0]) / std[0]
@@ -85,11 +85,11 @@ def get_preds(model, inputs, dataset_name, correct_class=None, batch_size=25, re
     num_batches = int(math.ceil(inputs.size(0) / float(batch_size)))
     softmax = torch.nn.Softmax()
     all_preds, all_probs = None, None
-    transform = trans.Normalize(IMAGENET_MEAN, IMAGENET_STD)
+    # transform = trans.Normalize(IMAGENET_MEAN, IMAGENET_STD)
     for i in range(num_batches):
         upper = min((i + 1) * batch_size, inputs.size(0))
         input = apply_normalization(inputs[(i * batch_size):upper], dataset_name)
-        output = softmax.forward(model.forward(input))
+        output = softmax.forward(model.forward(input.cuda()))
         if correct_class is None:
             prob, pred = output.max(1)
         else:
@@ -148,7 +148,7 @@ def diagonal_order(image_size, channels):
     for i in range(image_size):
         order[i, :(image_size - i)] = i + x[i:]
     for i in range(1, image_size):
-        reverse = order[image_size - i - 1].index_select(0, torch.LongTensor([i for i in range(i-1, -1, -1)]))
+        reverse = order[image_size - i - 1].index_select(0, torch.LongTensor([i for i in range(i - 1, -1, -1)]))
         order[i, (image_size - i):] = image_size * image_size - 1 - reverse
     if channels > 1:
         order_2d = order
@@ -174,8 +174,8 @@ def block_order(image_size, channels, initial_size=1, stride=1):
         num_elems = channels * (2 * stride * i + stride * stride)
         perm = torch.randperm(num_elems) + total_elems
         num_first = channels * stride * (stride + i)
-        order[:, :(i+stride), i:(i+stride)] = perm[:num_first].view(channels, -1, stride)
-        order[:, i:(i+stride), :i] = perm[num_first:].view(channels, stride, -1)
+        order[:, :(i + stride), i:(i + stride)] = perm[:num_first].view(channels, -1, stride)
+        order[:, i:(i + stride), :i] = perm[num_first:].view(channels, stride, -1)
         total_elems += num_elems
     return order.view(1, -1).squeeze().long().sort()[1]
 
@@ -188,7 +188,14 @@ def block_zero(x, block_size=8, ratio=0.5):
     mask[:, :, :int(block_size * ratio), :int(block_size * ratio)] = 1
     for i in range(num_blocks):
         for j in range(num_blocks):
-            z[:, :, (i * block_size):((i + 1) * block_size), (j * block_size):((j + 1) * block_size)] = x[:, :, (i * block_size):((i + 1) * block_size), (j * block_size):((j + 1) * block_size)] * mask
+            z[:, :, (i * block_size):((i + 1) * block_size), (j * block_size):((j + 1) * block_size)] = x[:, :, (
+                                                                                                                            i * block_size):(
+                                                                                                                            (
+                                                                                                                                        i + 1) * block_size),
+                                                                                                        (
+                                                                                                                    j * block_size):(
+                                                                                                                    (
+                                                                                                                                j + 1) * block_size)] * mask
     return z
 
 
@@ -224,7 +231,9 @@ def block_idct(x, block_size=8, masked=False, ratio=0.5, linf_bound=0.0):
             submat = x[:, :, (i * block_size):((i + 1) * block_size), (j * block_size):((j + 1) * block_size)].numpy()
             if masked:
                 submat = submat * mask
-            z[:, :, (i * block_size):((i + 1) * block_size), (j * block_size):((j + 1) * block_size)] = torch.from_numpy(idct(idct(submat, axis=3, norm='ortho'), axis=2, norm='ortho'))
+            z[:, :, (i * block_size):((i + 1) * block_size),
+            (j * block_size):((j + 1) * block_size)] = torch.from_numpy(
+                idct(idct(submat, axis=3, norm='ortho'), axis=2, norm='ortho'))
     if linf_bound > 0:
         return z.clamp(-linf_bound, linf_bound)
     else:
