@@ -9,9 +9,10 @@
   - [Paper](https://arxiv.org/abs/2209.09996)
 
 ## Literature PNN Methods
-- DeepReDuce [DeepReDuce: ReLU Reduction for Fast Private Inference]
+- DeepReDuce: ReLU Reduction for Fast Private Inference
   - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
-- Delphi
+- Delphi: A Cryptographic Inference Service for Neural Networks
+  - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
 - Quantization
 - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits,
 and 16 bits respectively.
@@ -55,5 +56,17 @@ and 16 bits respectively.
   pages={4839--4849},
   year={2021},
   organization={PMLR}
+}
+
+@inproceedings {delphi,
+author = {Pratyush Mishra and Ryan Lehmkuhl and Akshayaram Srinivasan and Wenting Zheng and Raluca Ada Popa},
+title = {Delphi: A Cryptographic Inference Service for Neural Networks},
+booktitle = {29th USENIX Security Symposium (USENIX Security 20)},
+year = {2020},
+isbn = {978-1-939133-17-5},
+pages = {2505--2522},
+url = {https://www.usenix.org/conference/usenixsecurity20/presentation/mishra},
+publisher = {USENIX Association},
+month = aug,
 }
 ```
