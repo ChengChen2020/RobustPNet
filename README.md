@@ -14,8 +14,16 @@
 - Delphi: A Cryptographic Inference Service for Neural Networks
   - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
 - Quantization
-- The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits,
-and 16 bits respectively.
+  - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
+- Polynomials
+  - On polynomial approximations for privacy-preserving and verifiable relu networks
+    - https://arxiv.org/pdf/2011.05530.pdf
+  - Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
+    - https://arxiv.org/pdf/2107.12342.pdf
+  - AESPA: Accuracy Preserving Low-degree Polynomial Activation for Fast Private Inference
+    - https://arxiv.org/pdf/2201.06699.pdf
+  - PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
+    - https://openreview.net/forum?id=OGzt9NKC0lO
 
 ## Objective
 - Larger ASR (Attack Success Rate)
