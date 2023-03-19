@@ -9,13 +9,16 @@
   - [Paper](https://arxiv.org/abs/2209.09996)
 
 ## Literature PNN Methods
-- DeepReDuce: ReLU Reduction for Fast Private Inference
-  - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
+- Constrained Nonlinearity
+  - DeepReDuce: ReLU Reduction for Fast Private Inference
+    - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
+  - CryptoNAS: Private Inference on a ReLU Budget
+    - [Paper](https://arxiv.org/abs/2006.08733)
 - Delphi: A Cryptographic Inference Service for Neural Networks
   - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
 - Quantization
   - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
-- Polynomials
+- Polynomial Approximations
   - On polynomial approximations for privacy-preserving and verifiable relu networks
     - https://arxiv.org/pdf/2011.05530.pdf
   - Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
@@ -27,6 +30,7 @@
     - https://openreview.net/forum?id=OGzt9NKC0lO
 
 ## Objective
+- Clean Accuracy*
 - Larger ASR (Attack Success Rate)
 - Fewer Queries
 - Smaller $\ell_2$ perturbation norm: Imperceptible
