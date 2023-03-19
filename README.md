@@ -9,7 +9,8 @@
   - [Paper](https://arxiv.org/abs/2209.09996)
 
 ## Literature PNN Methods
-- Constrained Nonlinearity
+- MPC/FHE
+- Constrained Nonlinearity (ONLY for MPC)
   - DeepReDuce: ReLU Reduction for Fast Private Inference
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
   - CryptoNAS: Private Inference on a ReLU Budget
@@ -28,6 +29,7 @@
     - https://arxiv.org/pdf/2201.06699.pdf
   - PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
     - https://openreview.net/forum?id=OGzt9NKC0lO
+    - KNN (CVPR 2019)
 
 ## Objective
 - Clean Accuracy*
