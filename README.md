@@ -24,7 +24,7 @@
     - https://arxiv.org/pdf/2011.05530.pdf
   - Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
     - The 3rd Privacy-Preserving Machine Learning Workshop 2021 (PPML)
-    - https://arxiv.org/pdf/2107.12342.pdf
+    - [Paper](https://arxiv.org/pdf/2107.12342.pdf), [Code](https://github.com/kvgarimella/sisyphus-ppml)
   - AESPA: Accuracy Preserving Low-degree Polynomial Activation for Fast Private Inference
     - https://arxiv.org/pdf/2201.06699.pdf
   - PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
