@@ -17,8 +17,8 @@ Test  10,000
 Val   10,000
 """
 
-if __name__ == '__main__':
 
+def tin_val_loader():
     data_dir = './data/tiny-imagenet-200/'
     num_workers = {'train': 0, 'val': 0, 'test': 0}
     data_transforms = {
@@ -54,13 +54,12 @@ if __name__ == '__main__':
             small_labels[label_id] = label
             line = dictionary_file.readline()
 
-    print(list(small_labels.items())[:5])
+    # print(list(small_labels.items())[:5])
 
     train_loader = dataloaders['train']
 
-    print(len(train_loader))
-
-    print(train_loader.dataset.class_to_idx['n12267677'])
+    # print(len(train_loader))
+    # print(train_loader.dataset.class_to_idx['n12267677'])
 
     labels = {}
     label_ids = {}
@@ -69,8 +68,8 @@ if __name__ == '__main__':
         labels[label_index] = label
         label_ids[label_id] = label_index
 
-    print(list(labels.items())[:5])
-    print(list(label_ids.items())[:5])
+    # print(list(labels.items())[:5])
+    # print(list(label_ids.items())[:5])
 
     val_label_map = {}
     with open(os.path.join(data_dir, "val/val_annotations.txt"), "r") as val_label_file:
@@ -93,7 +92,12 @@ if __name__ == '__main__':
 
         val_loader.dataset.imgs[i] = (file_path, label_ids[label_id])
 
-    print(labels[134])
+    return image_datasets['val'], val_loader
+
+
+if __name__ == '__main__':
+
+    _, val_loader = tin_val_loader()
 
     for images, labels in val_loader:
         print(images.shape, labels.shape)

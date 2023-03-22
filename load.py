@@ -15,16 +15,33 @@ args = parser.parse_args()
 
 num = args.model
 
+plt.figure()
 # res = torch.load('/Users/chen4384/simple-blackbox-attack/save_cifar/pixel_6approx_1000_0_32_0.2000_rand.pth')
-res = torch.load('/scratch/gilbreth/chen4384/RobustPNet/save/dct_{}_1000_0_14_0.2000_rand.pth'.format(num))
+for num in ['918K', '459K', '393K', '229K', '197K', '115K', '98K']:
+    res = torch.load('/scratch/gilbreth/chen4384/RobustPNet/save/dct_{}_1000_0_14_0.2000_rand.pth'.format(num))
 
-print(res.keys())
-print(res['adv'].shape)
-print(res['succs'][:, -1].sum())
-print(res['queries'].sum(dim=1).mean())
-print(res['probs'].shape)
-print(res['l2_norms'].shape)
-print(res['linf_norms'].shape)
+    print(res.keys())
+    print(res['adv'].shape)
+    print(res['succs'][:, -1].sum())
+    print(res['queries'].sum(dim=1).mean())
+    print(res['probs'].shape)
+    print(res['l2_norms'].shape)
+    print(res['linf_norms'].shape)
+
+    y = [res['succs'][:, i].sum() / 1000 for i in range(res['succs'].shape[1])]
+    x = []
+    ssum = 0
+    for i in range(res['queries'].shape[1]):
+        ssum += res['queries'][:, i].sum()
+        x.append(ssum / 1000)
+
+    plt.plot(x, y, label=num)
+plt.title('SimBA-DCT for DeepReDuce Models on TinyImageNet')
+plt.grid()
+plt.ylabel('Attack Success Rate')
+plt.xlabel('Queries')
+plt.legend()
+plt.savefig('./asr_vs_queries.png')
 
 checkpoint = torch.load('save/images_{}_1000.pth'.format(num))
 images = checkpoint['images'][:50]

@@ -12,6 +12,7 @@ from collections import OrderedDict
 
 from simba import SimBA
 from deepreduce_models.resnet import *
+from tinyimagenet import tin_val_loader
 
 parser = argparse.ArgumentParser(description='Runs SimBA on a set of images')
 # parser.add_argument('--data_root', type=str, required=True, help='root directory of imagenet data')
@@ -55,6 +56,7 @@ for key in keys:
 new_dict = OrderedDict(list(zip(new_keys, values)))
 model.load_state_dict(new_dict)
 model.eval()
+
 # if args.model.startswith('inception'):
 #     image_size = 299
 #     testset = dset.ImageFolder(args.data_root + '/val', utils.INCEPTION_TRANSFORM)
@@ -63,81 +65,10 @@ model.eval()
 #     testset = dset.ImageFolder(args.data_root + '/val', utils.IMAGENET_TRANSFORM)
 
 image_size = 64
-data_dir = './data/tiny-imagenet-200/'
-num_workers = {'train': 0, 'val': 0, 'test': 0}
-data_transforms = {
-    'train': transforms.Compose([
-        transforms.RandomRotation(20),
-        transforms.RandomHorizontalFlip(0.5),
-        transforms.ToTensor(),
-        # transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
-    ]),
-    'val': transforms.Compose([
-        transforms.ToTensor(),
-        # transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
-    ]),
-    'test': transforms.Compose([
-        transforms.ToTensor(),
-        # transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
-    ])
-}
 
-image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
-                  for x in ['train', 'val', 'test']}
-dataloaders = {x: data.DataLoader(image_datasets[x], batch_size=256, shuffle=True, num_workers=num_workers[x])
-               for x in ['train', 'val', 'test']}
-dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val', 'test']}
-
-#       label_id  --> label
-# e.g., n01443537 --> goldfish, Carassius auratus
-small_labels = {}
-with open(os.path.join(data_dir, "words.txt"), "r") as dictionary_file:
-    line = dictionary_file.readline()
-    while line:
-        label_id, label = line.strip().split("\t")
-        small_labels[label_id] = label
-        line = dictionary_file.readline()
-
-print(list(small_labels.items())[:5])
-
-train_loader = dataloaders['train']
-
-print(train_loader.dataset.class_to_idx['n12267677'])
-
-labels = {}
-label_ids = {}
-for label_index, label_id in enumerate(train_loader.dataset.classes):
-    label = small_labels[label_id]
-    labels[label_index] = label
-    label_ids[label_id] = label_index
-
-print(list(labels.items())[:5])
-print(list(label_ids.items())[:5])
-
-val_label_map = {}
-with open(os.path.join(data_dir, "val/val_annotations.txt"), "r") as val_label_file:
-    line = val_label_file.readline()
-    while line:
-        file_name, label_id, _, _, _, _ = line.strip().split("\t")
-        val_label_map[file_name] = label_id
-        line = val_label_file.readline()
-
-"""
-`imgs`: This attribute is a list of tuples, 
-where each tuple contains the image path and its corresponding label.
-"""
-val_loader = dataloaders['val']
-for i in range(len(val_loader.dataset.imgs)):
-    file_path = val_loader.dataset.imgs[i][0]
-
-    file_name = os.path.basename(file_path)
-    label_id = val_label_map[file_name]
-
-    val_loader.dataset.imgs[i] = (file_path, label_ids[label_id])
+testset, _ = tin_val_loader()
 
 attacker = SimBA(model, 'tinyimagenet', image_size)
-
-testset = image_datasets['val']
 
 # load sampled images or sample new ones
 # this is to ensure all attacks are run on the same set of correctly classified images
@@ -166,6 +97,7 @@ if args.num_iters > 0:
     max_iters = int(min(n_dims, args.num_iters))
 else:
     max_iters = int(n_dims)
+
 N = int(math.floor(float(args.num_runs) / float(args.batch_size)))
 for i in range(N):
     print("Batch", i)
@@ -176,7 +108,8 @@ for i in range(N):
     if args.targeted:
         labels_targeted = labels_batch.clone()
         while labels_targeted.eq(labels_batch).sum() > 0:
-            labels_targeted = torch.floor(1000 * torch.rand(labels_batch.size())).long()
+            # TinyImageNet has 200 classes
+            labels_targeted = torch.floor(200 * torch.rand(labels_batch.size())).long()
         labels_batch = labels_targeted
     adv, probs, succs, queries, l2_norms, linf_norms = attacker.simba_batch(
         images_batch, labels_batch, max_iters, args.freq_dims, args.stride, args.epsilon, linf_bound=args.linf_bound,
@@ -202,6 +135,8 @@ for i in range(N):
     if args.targeted:
         prefix += '_targeted'
     savefile = '%s/%s_%s_%d_%d_%d_%.4f_%s%s.pth' % (
-        args.result_dir, prefix, args.model, args.num_runs, args.num_iters, args.freq_dims, args.epsilon, args.order, args.save_suffix)
+        args.result_dir, prefix, args.model, args.num_runs,
+        args.num_iters, args.freq_dims, args.epsilon, args.order, args.save_suffix
+    )
     torch.save({'adv': all_adv, 'probs': all_probs, 'succs': all_succs, 'queries': all_queries,
                 'l2_norms': all_l2_norms, 'linf_norms': all_linf_norms}, savefile)
