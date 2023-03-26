@@ -75,7 +75,10 @@ class SimBA:
             expand_dims = image_size
         n_dims = 3 * expand_dims * expand_dims
         x = torch.zeros(batch_size, n_dims)
+
         # logging tensors
+        # BARCH_SIZE * MAX_ITERS
+        # 50 * (3*14*14)
         probs = torch.zeros(batch_size, max_iters)
         succs = torch.zeros(batch_size, max_iters)
         queries = torch.zeros(batch_size, max_iters)
@@ -88,19 +91,25 @@ class SimBA:
         else:
             trans = lambda z: utils.block_idct(z, block_size=image_size, linf_bound=linf_bound)
         remaining_indices = torch.arange(0, batch_size).long()
+
         for k in range(max_iters):
             dim = indices[k]
+            # Adversarial samples
             expanded = (images_batch[remaining_indices] + trans(self.expand_vector(x[remaining_indices], expand_dims))).clamp(0, 1)
+            # Perturbation
             perturbation = trans(self.expand_vector(x, expand_dims))
             l2_norms[:, k] = perturbation.view(batch_size, -1).norm(2, 1)
             linf_norms[:, k] = perturbation.view(batch_size, -1).abs().max(1)[0]
             preds_next = self.get_preds(expanded)
+            # Update remaining probabilities
             preds[remaining_indices] = preds_next
+            # Update preds
             if targeted:
                 remaining = preds.ne(labels_batch)
             else:
                 remaining = preds.eq(labels_batch)
             # check if all images are misclassified and stop early
+            print(remaining.sum())
             if remaining.sum() == 0:
                 adv = (images_batch + trans(self.expand_vector(x, expand_dims))).clamp(0, 1)
                 probs_k = self.get_probs(adv, labels_batch)
@@ -127,6 +136,7 @@ class SimBA:
                 improved = left_probs.gt(prev_probs[remaining_indices])
             else:
                 improved = left_probs.lt(prev_probs[remaining_indices])
+            # Two directions
             # only increase query count further by 1 for images that did not improve in adversarial loss
             if improved.sum() < remaining_indices.size(0):
                 queries_k[remaining_indices[~improved]] += 1
@@ -155,6 +165,7 @@ class SimBA:
             if (k + 1) % log_every == 0 or k == max_iters - 1:
                 print('Iteration %d: queries = %.4f, prob = %.4f, remaining = %.4f' % (
                         k + 1, queries.sum(1).mean(), probs[:, k].mean(), remaining.float().mean()))
+
         expanded = (images_batch + trans(self.expand_vector(x, expand_dims))).clamp(0, 1)
         preds = self.get_preds(expanded)
         if targeted:
