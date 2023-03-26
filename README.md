@@ -1,24 +1,32 @@
 # Robust Private Neural Network
 
 ## Literature Attack Methods
+- Bandit
+- NES
 - Square attack: a query-efficient black-box adversarial attack via random search
   - [Paper](https://arxiv.org/abs/1912.00049), [Code](https://github.com/max-andr/square-attack)
 - Simple Black-box Adversarial Attacks
   - [Paper](https://arxiv.org/abs/1905.07121), [Code](https://github.com/cg563/simple-blackbox-attack)
 - Audit and Improve Robustness of Private Neural Networks on Encrypted Data
   - [Paper](https://arxiv.org/abs/2209.09996)
+- signSGD via Zeroth-Order Oracle
+  - [Paper](https://openreview.net/forum?id=BJe-DsC5Fm)
 
 ## Literature PNN Methods
-- MPC/FHE
+- Security Protocols
+  - MPC/FHE
+  - Garbled Circuits (GC)
+  - Quantization
+    - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
+  - Delphi: A Cryptographic Inference Service for Neural Networks
+    - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
 - Constrained Nonlinearity (ONLY for MPC)
   - DeepReDuce: ReLU Reduction for Fast Private Inference
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
   - CryptoNAS: Private Inference on a ReLU Budget
     - [Paper](https://arxiv.org/abs/2006.08733)
-- Delphi: A Cryptographic Inference Service for Neural Networks
-  - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
-- Quantization
-  - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
+  - Selective Network Linearization for Efficient Private Inference
+    - [Paper](https://proceedings.mlr.press/v162/cho22a.html), [Code](https://github.com/NYU-DICE-Lab/selective_network_linearization)
 - Polynomial Approximations
   - On polynomial approximations for privacy-preserving and verifiable relu networks
     - https://arxiv.org/pdf/2011.05530.pdf
