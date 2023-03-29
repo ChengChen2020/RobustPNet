@@ -13,9 +13,9 @@ parser = argparse.ArgumentParser(description='Runs SimBA on a set of images')
 parser.add_argument('--data_root', type=str, required=True, help='root directory of imagenet data')
 parser.add_argument('--result_dir', type=str, default='save_cifar', help='directory for saving results')
 parser.add_argument('--sampled_image_dir', type=str, default='save_cifar', help='directory to cache sampled images')
-parser.add_argument('--model', type=str, default='resnet18', help='type of base model to use')
+parser.add_argument('--model', type=str, default='minionn', help='type of base model to use')
 parser.add_argument('--model_ckpt', type=str, required=True, help='model checkpoint location')
-parser.add_argument('--num_runs', type=int, default=100, help='number of image samples')
+parser.add_argument('--num_runs', type=int, default=1000, help='number of image samples')
 parser.add_argument('--batch_size', type=int, default=50, help='batch size for parallel runs')
 parser.add_argument('--num_iters', type=int, default=0, help='maximum number of iterations, 0 for unlimited')
 parser.add_argument('--log_every', type=int, default=10, help='log every n iterations')
@@ -35,7 +35,7 @@ if not os.path.exists(args.sampled_image_dir):
     os.mkdir(args.sampled_image_dir)
 
 # load model and dataset
-model = Minionn()
+model = Minionn().cuda()
 model.load_state_dict(torch.load('minionn_torch/pretrained/' + args.model_ckpt))
 model.eval()
 image_size = 32
