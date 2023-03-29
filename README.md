@@ -14,21 +14,27 @@
 
 ## Literature PNN Methods
 - Security Protocols
-  - FHE
-    - Fully homomorphic encryption using ideal lattices
+  - FHE (for linear layers)
+    - Fully Homomorphic Encryption using ideal lattices
+    - Minimal communication
     - Allow executing any Boolean circuit over encrypted data
     - SEAL library
-  - MPC
-  - Garbled Circuits (GC)
+    - Gazelle and SAFENet
+    - CryptoNets (ICML 2016)
+      - Convert learned neural networks to CryptoNets
+      - Faster CryptoNets, Low Latency CrptoNets, Shift-accumulation based leveled HE(SHE) 
+  - MPC (for non-linear layers)
+    - MiniONN, DELPHI, CryptoNAS, and DeepReDuce
+    - Garbled Circuits (GC)
+    - Delphi: A Cryptographic Inference Service for Neural Networks
+      - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
+      - 26 out of 31 ReLUs are replaced into a quadratic approximation
   - Quantization
     - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
-  - CryptoNets (ICML 2016)
-    - Convert learned neural networks to CryptoNets
-  - Delphi: A Cryptographic Inference Service for Neural Networks
-    - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
-- Constrained Nonlinearity (ONLY for MPC)
+- Constrained Nonlinearity
   - DeepReDuce: ReLU Reduction for Fast Private Inference
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
+    - Knowledge Distillation
   - CryptoNAS: Private Inference on a ReLU Budget
     - [Paper](https://arxiv.org/abs/2006.08733)
     - Maximize accuracy within a given budget.
@@ -37,12 +43,15 @@
     - A gradient-based algorithm that selectively linearizes ReLUs.
 - Polynomial Approximations
   - On polynomial approximations for privacy-preserving and verifiable relu networks
-    - https://arxiv.org/pdf/2011.05530.pdf
+    - [Paper](https://arxiv.org/pdf/2011.05530.pdf)
+    - A degree-2 polynomial activation function with a first order term
   - Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
     - The 3rd Privacy-Preserving Machine Learning Workshop 2021 (PPML)
     - [Paper](https://arxiv.org/pdf/2107.12342.pdf), [Code](https://github.com/kvgarimella/sisyphus-ppml)
+    - Drop-and-replace, Replace-and-retrain
   - AESPA: Accuracy Preserving Low-degree Polynomial Activation for Fast Private Inference
-    - https://arxiv.org/pdf/2201.06699.pdf
+    - [Paper](https://arxiv.org/pdf/2201.06699.pdf)
+    - Replace all ReLUs in the neural networks, using the Hermite polynomial concatenated with the basis-wise normalization.
   - PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
     - https://openreview.net/forum?id=OGzt9NKC0lO
     - KNN (CVPR 2019)
