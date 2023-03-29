@@ -3,13 +3,13 @@
 ## Literature Attack Methods
 - Bandit
 - NES
-- (19ICML) Simple Black-box Adversarial Attacks
+- (19 ICML) Simple Black-box Adversarial Attacks
   - [Paper](https://arxiv.org/abs/1905.07121), [Code](https://github.com/cg563/simple-blackbox-attack)
-- (19ICLR) signSGD via Zeroth-Order Oracle
+- (19 ICLR) signSGD via Zeroth-Order Oracle
   - [Paper](https://openreview.net/forum?id=BJe-DsC5Fm)
-- (20ECCV) Square attack: a query-efficient black-box adversarial attack via random search
+- (20 ECCV) Square attack: a query-efficient black-box adversarial attack via random search
   - [Paper](https://arxiv.org/abs/1912.00049), [Code](https://github.com/max-andr/square-attack)
-- (22arxiv) Audit and Improve Robustness of Private Neural Networks on Encrypted Data
+- (22 arxiv) Audit and Improve Robustness of Private Neural Networks on Encrypted Data
   - [Paper](https://arxiv.org/abs/2209.09996)
 
 ## Literature PNN Methods
@@ -27,41 +27,41 @@
     - Garbled Circuits (GC) (for non-linear layers)
     - Secret Sharing (SS) (for linear layers)
     - MiniONN, DELPHI, CryptoNAS, and DeepReDuce
-    - (20UsenixSecurity20) Delphi: A Cryptographic Inference Service for Neural Networks
+    - Delphi: A Cryptographic Inference Service for Neural Networks
       - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
       - 26 out of 31 ReLUs are replaced into a quadratic approximation
   - Quantization
     - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
 - Constrained Nonlinearity
-  - (16ICML) CryptoNAS: Private Inference on a ReLU Budget
+  - (20 NIPS) CryptoNAS: Private Inference on a ReLU Budget
     - [Paper](https://arxiv.org/abs/2006.08733)
     - Maximize accuracy within a given budget.
-  - (21ICML) DeepReDuce: ReLU Reduction for Fast Private Inference
+  - (21 ICML) DeepReDuce: ReLU Reduction for Fast Private Inference
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
     - Knowledge Distillation, Manual Effort
-  - (22ICML) Selective Network Linearization for Efficient Private Inference
+  - (22 ICML) Selective Network Linearization for Efficient Private Inference
     - [Paper](https://proceedings.mlr.press/v162/cho22a.html), [Code](https://github.com/NYU-DICE-Lab/selective_network_linearization)
     - A gradient-based algorithm that selectively linearizes ReLUs.
     - Lower granularity, Pixel level ReLU reduction
     - Hyperparameter sensitive
-  - (23ICLR) SENet (LEARNING TO LINEARIZE DEEP NEURAL NETWORKS FOR SECURE AND EFFICIENT PRIVATE INFERENCE)
+  - (23 ICLR) SENet (LEARNING TO LINEARIZE DEEP NEURAL NETWORKS FOR SECURE AND EFFICIENT PRIVATE INFERENCE)
     - We use the trained mask to create a partial ReLU (PR) model with ReLU present only at fixed parts of the non-linearity layers, and fine-tune it via distillation from an iso-architecture trained AR model. Importantly, we support ReLU mask allocation both at the granularity of individual pixels and activation channels.
     - [Paper](https://openreview.net/forum?id=BGF9IeDfmlH)
 - Polynomial Approximations
-  - Delphi*
-  - (21ICLR) SAFENet: ASecure, ACCURATE AND FAST NEU-RAL NETWORK INFERENCE
-    - SAFENet includes channel-wise activation approximation with multiple-degree options.
-  - On polynomial approximations for privacy-preserving and verifiable relu networks
+  - (20 UsenixSecurity) Delphi*
+  - (20 arxiv) On polynomial approximations for privacy-preserving and verifiable relu networks
     - [Paper](https://arxiv.org/pdf/2011.05530.pdf)
     - A degree-2 polynomial activation function with a first order term
-  - (Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
+  - (21 ICLR) SAFENet: ASecure, ACCURATE AND FAST NEU-RAL NETWORK INFERENCE
+    - SAFENet includes channel-wise activation approximation with multiple-degree options.
+  - (21 PPML) Sisyphus: A Cautionary Tale of Using Low-Degree Polynomial Activations in Privacy-Preserving Deep Learning
     - The 3rd Privacy-Preserving Machine Learning Workshop 2021 (PPML)
     - [Paper](https://arxiv.org/pdf/2107.12342.pdf), [Code](https://github.com/kvgarimella/sisyphus-ppml)
     - Drop-and-replace, Replace-and-retrain
-  - (22arxiv) AESPA: Accuracy Preserving Low-degree Polynomial Activation for Fast Private Inference
+  - (22 arxiv) AESPA: Accuracy Preserving Low-degree Polynomial Activation for Fast Private Inference
     - [Paper](https://arxiv.org/pdf/2201.06699.pdf)
     - Replace all ReLUs in the neural networks, using the Hermite polynomial concatenated with the basis-wise normalization.
-  - (23SaTML) PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
+  - (23 SaTML) PolyKervNets: Activation-free Neural Networks For Efficient Private Inference (1st IEEE on SaTML 2023 Accepted)
     - https://openreview.net/forum?id=OGzt9NKC0lO
     - KNN (CVPR 2019)
 
