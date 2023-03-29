@@ -31,8 +31,10 @@
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
   - CryptoNAS: Private Inference on a ReLU Budget
     - [Paper](https://arxiv.org/abs/2006.08733)
+    - Maximize accuracy within a given budget.
   - Selective Network Linearization for Efficient Private Inference
     - [Paper](https://proceedings.mlr.press/v162/cho22a.html), [Code](https://github.com/NYU-DICE-Lab/selective_network_linearization)
+    - A gradient-based algorithm that selectively linearizes ReLUs.
 - Polynomial Approximations
   - On polynomial approximations for privacy-preserving and verifiable relu networks
     - https://arxiv.org/pdf/2011.05530.pdf
