@@ -23,9 +23,10 @@
     - CryptoNets (ICML 2016)
       - Convert learned neural networks to CryptoNets
       - Faster CryptoNets, Low Latency CrptoNets, Shift-accumulation based leveled HE(SHE) 
-  - MPC (for non-linear layers)
+  - MPC
+    - Garbled Circuits (GC) (for non-linear layers)
+    - Secret Sharing (SS) (for linear layers)
     - MiniONN, DELPHI, CryptoNAS, and DeepReDuce
-    - Garbled Circuits (GC)
     - Delphi: A Cryptographic Inference Service for Neural Networks
       - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
       - 26 out of 31 ReLUs are replaced into a quadratic approximation
@@ -34,14 +35,19 @@
 - Constrained Nonlinearity
   - DeepReDuce: ReLU Reduction for Fast Private Inference
     - [Paper](https://arxiv.org/abs/2103.01396), Pretrained models available
-    - Knowledge Distillation
+    - Knowledge Distillation, Manual Effort
   - CryptoNAS: Private Inference on a ReLU Budget
     - [Paper](https://arxiv.org/abs/2006.08733)
     - Maximize accuracy within a given budget.
   - Selective Network Linearization for Efficient Private Inference
     - [Paper](https://proceedings.mlr.press/v162/cho22a.html), [Code](https://github.com/NYU-DICE-Lab/selective_network_linearization)
     - A gradient-based algorithm that selectively linearizes ReLUs.
+    - Lower granularity, Pixel level ReLU reduction
+    - Hyperparameter sensitive
+  - SENet (LEARNING TO LINEARIZE DEEP NEURAL NETWORKS FOR SECURE AND EFFICIENT PRIVATE INFERENCE)
+    - We use the trained mask to create a partial ReLU (PR) model with ReLU present only at fixed parts of the non-linearity layers, and fine-tune it via distillation from an iso-architecture trained AR model. Importantly, we support ReLU mask allocation both at the granularity of individual pixels and activation channels.
 - Polynomial Approximations
+  - Delphi*
   - On polynomial approximations for privacy-preserving and verifiable relu networks
     - [Paper](https://arxiv.org/pdf/2011.05530.pdf)
     - A degree-2 polynomial activation function with a first order term
