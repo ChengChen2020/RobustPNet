@@ -14,10 +14,16 @@
 
 ## Literature PNN Methods
 - Security Protocols
-  - MPC/FHE
+  - FHE
+    - Fully homomorphic encryption using ideal lattices
+    - Allow executing any Boolean circuit over encrypted data
+    - SEAL library
+  - MPC
   - Garbled Circuits (GC)
   - Quantization
     - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
+  - CryptoNets (ICML 2016)
+    - Convert learned neural networks to CryptoNets
   - Delphi: A Cryptographic Inference Service for Neural Networks
     - [Paper](https://www.usenix.org/conference/usenixsecurity20/presentation/mishra), [Code](https://github.com/mc2-project/delphi)
 - Constrained Nonlinearity (ONLY for MPC)
