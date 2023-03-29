@@ -11,6 +11,8 @@
   - [Paper](https://arxiv.org/abs/1912.00049), [Code](https://github.com/max-andr/square-attack)
 - (22 arxiv) Audit and Improve Robustness of Private Neural Networks on Encrypted Data
   - [Paper](https://arxiv.org/abs/2209.09996)
+  - MNIST, CIFAR10, Diabetic Retinopathy
+  - Network defined in CryptoNets
   - Quantization
     - The PNet encoding based on FHE involves two conversions, i.e., representing all the real values into integers or fixed-point numbers by quantization, approximating non-linear activation functions into approximated linear function, e.g., square function.
     - The networks on MNIST, CIFAR10, and medical datasets are quantized into 8 bits, 10 bits, and 16 bits respectively.
