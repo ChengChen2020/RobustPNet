@@ -74,6 +74,7 @@ class SimBA:
         else:
             expand_dims = image_size
         n_dims = 3 * expand_dims * expand_dims
+        # Attacking vector
         x = torch.zeros(batch_size, n_dims)
 
         # logging tensors
@@ -85,12 +86,13 @@ class SimBA:
         l2_norms = torch.zeros(batch_size, max_iters)
         linf_norms = torch.zeros(batch_size, max_iters)
         prev_probs = self.get_probs(images_batch, labels_batch)
+        # preds initialized as clean image prediction
         preds = self.get_preds(images_batch)
         if pixel_attack:
             trans = lambda z: z
         else:
             trans = lambda z: utils.block_idct(z, block_size=image_size, linf_bound=linf_bound)
-        remaining_indices = torch.arange(0, batch_size).long()
+        remaining_indices = torch.arange(0, batch_size)
 
         for k in range(max_iters):
             dim = indices[k]
@@ -109,7 +111,7 @@ class SimBA:
             else:
                 remaining = preds.eq(labels_batch)
             # check if all images are misclassified and stop early
-            print(remaining.sum())
+            # print(remaining.sum())
             if remaining.sum() == 0:
                 adv = (images_batch + trans(self.expand_vector(x, expand_dims))).clamp(0, 1)
                 probs_k = self.get_probs(adv, labels_batch)
@@ -119,9 +121,10 @@ class SimBA:
                 print('Iteration %d: queries = %.4f, prob = %.4f, remaining = %.4f' % (
                     k + 1, queries.sum(1).mean(), probs[:, k].mean(), remaining.float().mean()))
                 break
-            remaining_indices = torch.arange(0, batch_size)[remaining].long()
-            if k > 0:
-                succs[:, k-1] = ~remaining
+            remaining_indices = torch.arange(0, batch_size)[remaining]
+            # TODO
+            succs[:, k] = ~remaining
+
             diff = torch.zeros(remaining.sum(), n_dims)
             diff[:, dim] = epsilon
             left_vec = x[remaining_indices] - diff
@@ -167,10 +170,10 @@ class SimBA:
                         k + 1, queries.sum(1).mean(), probs[:, k].mean(), remaining.float().mean()))
 
         expanded = (images_batch + trans(self.expand_vector(x, expand_dims))).clamp(0, 1)
-        preds = self.get_preds(expanded)
-        if targeted:
-            remaining = preds.ne(labels_batch)
-        else:
-            remaining = preds.eq(labels_batch)
-        succs[:, max_iters-1] = ~remaining
+        # preds = self.get_preds(expanded)
+        # if targeted:
+        #     remaining = preds.ne(labels_batch)
+        # else:
+        #     remaining = preds.eq(labels_batch)
+        # succs[:, max_iters-1] = ~remaining
         return expanded, probs, succs, queries, l2_norms, linf_norms

@@ -35,7 +35,7 @@ class BasicBlock(nn.Module):
 			self.relu2 = nn.ReLU()
 
 		self.shortcut = nn.Sequential()
-			
+
 
 		if stride != 1 or in_planes != self.expansion*planes:
 			self.shortcut = nn.Sequential(
@@ -65,7 +65,7 @@ class ResNet(nn.Module):
 		self.alpha = alpha
 		self.rho = rho
 		self.in_planes = int(64*alpha)
-		
+
 		self.conv1 = nn.Conv2d(3, self.in_planes, kernel_size=3,stride=int(1//rho), padding=1, bias=False)
 		self.bn1 = nn.BatchNorm2d(self.in_planes)
 		self.relu = nn.ReLU()
@@ -74,7 +74,7 @@ class ResNet(nn.Module):
 		self.layer2 = self._make_layer(block, int(128*alpha), num_blocks[1], isCulled[1],isThinned,stride=2)
 		self.layer3 = self._make_layer(block, int(256*alpha), num_blocks[2], isCulled[2],isThinned,stride=2)
 		self.layer4 = self._make_layer(block, int(512*alpha), num_blocks[3], isCulled[3],isThinned,stride=2)
-		
+
 		self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 		self.fc = nn.Linear(int(512*alpha)*block.expansion, num_classes)
 
@@ -88,8 +88,8 @@ class ResNet(nn.Module):
 
 	def forward(self, x):
 		out = self.conv1(x)
-		out = self.bn1(out) 
-		out = self.relu(out) 
+		out = self.bn1(out)
+		out = self.relu(out)
 		out = self.layer1(out)
 		out = self.layer2(out)
 		out = self.layer3(out)
@@ -109,3 +109,30 @@ def test():
 	print(y.size())
 
 # test()
+
+
+model = ResNet18(200).cuda()
+model.eval()
+
+# Define an input tensor
+input_tensor = torch.rand(1, 3, 64, 64).cuda()  # (batch_size, channels, height, width)
+
+summ = 0
+
+def print_input_shape(module, input):
+	global summ
+	summ += input[0].flatten().shape[0]
+	print(f"Input shape: {input[0].shape}")
+
+
+# create the neural network
+net = ResNet18(200).cuda()
+net.eval()
+
+# register the forward hook for ReLU activations
+for module in net.modules():
+	if isinstance(module, nn.ReLU):
+		module.register_forward_pre_hook(print_input_shape)
+
+net(input_tensor)
+print(summ)

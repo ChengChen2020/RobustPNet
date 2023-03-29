@@ -1,5 +1,5 @@
-__pycache__/*
-data/
+**/__pycache__/
+**/data/
 *.tar
 *.pth
 *.JPEG

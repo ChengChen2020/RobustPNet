@@ -151,3 +151,28 @@ def DRD_TINY_57K(num_classes):
 
 def DRD_TINY_49K(num_classes):
 	return ResNet(BasicBlock, [2,2,2,2], num_classes, alpha = 1.0, rho = 0.5, isCulled=[True,True,False,False], isThinned=[False,True])
+
+
+# Define an input tensor
+# input_tensor = torch.rand(1, 3, 64, 64).cuda()  # (batch_size, channels, height, width)
+# 
+# summ = 0
+#
+#
+# def print_input_shape(module, input):
+# 	global summ
+# 	summ += input[0].flatten().shape[0]
+# 	print(f"Input shape: {input[0].shape}")
+#
+#
+# # create the neural network
+# net = DRD_TINY_98K(200).cuda()
+# net.eval()
+#
+# # register the forward hook for ReLU activations
+# for module in net.modules():
+# 	if isinstance(module, nn.ReLU):
+# 		module.register_forward_pre_hook(print_input_shape)
+#
+# net(input_tensor)
+# print(summ)

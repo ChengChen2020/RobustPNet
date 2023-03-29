@@ -68,32 +68,25 @@ def get_num_params(net):
 
 
 if __name__ == '__main__':
-
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
     for approx in [0, 3, 5, 6, 7]:
-        model = Minionn(approx=approx).to(device)
+        model = Minionn(approx=approx)
         if approx == 0:
             model.load_state_dict(torch.load('pretrained/relu.pt'))
         else:
             model.load_state_dict(torch.load('pretrained/' + str(approx) + '_approx.pt'))
         model.eval()
 
-        testset = torchvision.datasets.CIFAR10(root='../data', train=False,
+        testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                                download=True, transform=transforms.ToTensor())
         testloader = torch.utils.data.DataLoader(testset, batch_size=1,
                                                  shuffle=False, num_workers=1)
 
         correct = 0
-        total = 0
         for images, labels in tqdm(testloader):
-            images, labels = images.to(device), labels.to(device)
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+            out = model(images).detach().numpy()
+            correct += 1 if labels[0] == np.argmax(out[0]) else 0
 
-        print(approx, 100 * correct / total)
+        print(approx, 100 * correct / len(testset))
 
     # torch.save(model.state_dict(), '6_approx.pt')
 
