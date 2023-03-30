@@ -1,5 +1,11 @@
 # Robust Private Neural Network
 
+- (22 CCS) Phoenix
+  - [Paper](https://www.sri.inf.ethz.ch/publications/jovanovic2022phoenix), [Code](https://github.com/eth-sri/phoenix)
+  - Robust Certification Methods
+  - Randomized Smoothing
+  - New FHE counterparts which handle additional inference-time operations
+
 ## Literature Attack Methods
 - Bandit
 - NES
