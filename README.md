@@ -1,10 +1,7 @@
 # Robust Private Neural Network
 
-- (22 CCS) Phoenix
-  - [Paper](https://www.sri.inf.ethz.ch/publications/jovanovic2022phoenix), [Code](https://github.com/eth-sri/phoenix)
-  - Robust Certification Methods
-  - Randomized Smoothing
-  - New FHE counterparts which handle additional inference-time operations
+## Usage
+- Adjust and execute `run.sh` commands accordingly.
 
 ## Literature Attack Methods
 - Bandit
@@ -80,6 +77,13 @@
 - Larger ASR (Attack Success Rate)
 - Fewer Queries
 - Smaller $\ell_2$ perturbation norm: Imperceptible
+
+## Future Work
+- (22 CCS) Phoenix
+  - [Paper](https://www.sri.inf.ethz.ch/publications/jovanovic2022phoenix), [Code](https://github.com/eth-sri/phoenix)
+  - Robust Certification Methods
+  - Randomized Smoothing
+  - New FHE counterparts which handle additional inference-time operations
 
 ### References
 ```bib
