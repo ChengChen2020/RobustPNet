@@ -1,3 +1,5 @@
+# Modified from https://github.com/cg563/simple-blackbox-attack
+
 import torch
 import torch.nn.functional as F
 import utils

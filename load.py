@@ -40,10 +40,10 @@ if args.pixel_attack:
     p5 = '64'
 
 for num in nums:
-    print('# of ReLUs:', num)
+    # print('# of ReLUs:', num)
     # res = torch.load('/scratch/gilbreth/chen4384/RobustPNet/save/{}_{}{}_1000_0_{}_0.2000_rand.pth'.format(p2, p1, num, p5))
     print('# :', num)
-    res = torch.load('/scratch/gilbreth/chen4384/RobustPNet/save_cifar/{}_{}{}_1000_0_32_0.2000_rand.pth'.format(p2, p1, num))
+    res = torch.load('/scratch/gilbreth/chen4384/RobustPNet/save_cifar/{}_{}{}_1000_0_14_0.2000_rand.pth'.format(p2, p1, num))
 
     print(res.keys())
     print(res['adv'].shape)

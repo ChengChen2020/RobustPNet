@@ -1,3 +1,5 @@
+# Modified from https://github.com/cg563/simple-blackbox-attack
+
 import torch
 import torchvision.datasets as dset
 
@@ -21,7 +23,7 @@ parser.add_argument('--num_iters', type=int, default=0, help='maximum number of 
 parser.add_argument('--log_every', type=int, default=10, help='log every n iterations')
 parser.add_argument('--epsilon', type=float, default=0.2, help='step size per iteration')
 parser.add_argument('--linf_bound', type=float, default=0.0, help='L_inf bound for frequency space attack')
-parser.add_argument('--freq_dims', type=int, default=32, help='dimensionality of 2D frequency space')
+parser.add_argument('--freq_dims', type=int, default=14, help='dimensionality of 2D frequency space')
 parser.add_argument('--order', type=str, default='rand', help='(random) order of coordinate selection')
 parser.add_argument('--stride', type=int, default=7, help='stride for block order')
 parser.add_argument('--targeted', action='store_true', help='perform targeted attack')
